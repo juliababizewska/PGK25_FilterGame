@@ -681,15 +681,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftRawImage: {fileID: 2093715842}
   rightRawImage: {fileID: 1026453709}
-  brightnessSlider: {fileID: 163921627}
-  contrastSlider: {fileID: 970409806}
-  gammaSlider: {fileID: 21102242}
-  saturationSlider: {fileID: 511744097}
   scoreText: {fileID: 1166145291}
   resultText: {fileID: 1824120937}
-  randomizeButton: {fileID: 0}
-  checkButton: {fileID: 910089921}
   originalTexture: {fileID: 2800000, guid: 3cf8d9e04d9fdfa49988b966665f7f8c, type: 3}
+  procWidth: 320
 --- !u!1 &260320629
 GameObject:
   m_ObjectHideFlags: 0
@@ -2327,6 +2322,61 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1618230127
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1618230129}
+  - component: {fileID: 1618230128}
+  m_Layer: 0
+  m_Name: UIController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1618230128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618230127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b18d7d13539adf8428eecf9b4f416ed0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brightnessSlider: {fileID: 163921627}
+  contrastSlider: {fileID: 970409806}
+  gammaSlider: {fileID: 21102242}
+  saturationSlider: {fileID: 511744097}
+  randomizeButton: {fileID: 137883566}
+  checkButton: {fileID: 910089921}
+  currentParams:
+    brightness: 0
+    contrast: 1
+    gamma: 1
+    saturation: 1
+--- !u!4 &1618230129
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618230127}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 571.68066, y: 251.26903, z: -6.818101}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1701914010
 GameObject:
   m_ObjectHideFlags: 0
@@ -3120,3 +3170,4 @@ SceneRoots:
   - {fileID: 1854147375}
   - {fileID: 1771388240}
   - {fileID: 193048146}
+  - {fileID: 1618230129}
