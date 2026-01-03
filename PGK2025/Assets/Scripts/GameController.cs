@@ -17,6 +17,11 @@ public class GameController : MonoBehaviour
     [Header("Processing")]
     public int procWidth = 320;
 
+    [Header("SliderValues")]
+    public TMP_Text brightnessValueText;
+    public TMP_Text contrastValueText;
+    public TMP_Text gammaValueText;
+    public TMP_Text saturationValueText;
 
     [Header("Histograms UI (optional)")]
     public RawImage leftHistogramImage;
@@ -40,7 +45,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        // 🔹 Pobierz losowy obrazek
+        //Pobierz losowy obrazek
         ImageManager.Initialize();
         if (originalTexture == null)
             originalTexture = ImageManager.GetRandomImage();
@@ -96,7 +101,9 @@ public class GameController : MonoBehaviour
     {
         ApplyPlayerParamsToLeft();
         UpdateScoreDisplay();
+        UpdateFilterValue();
     }
+
 
     private void ApplyPlayerParamsToLeft()
     {
@@ -134,6 +141,14 @@ public class GameController : MonoBehaviour
         if (scoreText != null) scoreText.text = $"Score: {score:F3}";
     }
 
+    private void UpdateFilterValue()
+    {
+        brightnessValueText.text = ui.currentParams.brightness.ToString("F2");
+        contrastValueText.text = ui.currentParams.contrast.ToString("F2");
+        gammaValueText.text = ui.currentParams.gamma.ToString("F2");
+        saturationValueText.text = ui.currentParams.saturation.ToString("F2");
+    }
+
     private void CheckMatch()
     {
         float score = ScoreCalculator.ComputeMatchScore(leftTexture.GetPixels(), rightTexture.GetPixels());
@@ -169,7 +184,7 @@ public class GameController : MonoBehaviour
         Texture2D newTex = ImageManager.GetRandomImage();
         if (newTex == null)
         {
-            Debug.LogWarning("❌ Brak dostępnych obrazków w Resources/Images/");
+            Debug.LogWarning("Brak dostępnych obrazków w Resources/Images/");
             return;
         }
 
@@ -183,7 +198,7 @@ public class GameController : MonoBehaviour
         GenerateRandomTarget();
         ApplyPlayerParamsToLeft();
 
-        Debug.Log($"🔄 Zmieniono obrazek na: {originalTexture.name}");
+        Debug.Log($"Zmieniono obrazek na: {originalTexture.name}");
     }
 
 }
