@@ -51,14 +51,14 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        //Pobierz losowy obrazek
+        //Get random image
         ImageManager.Initialize();
         if (originalTexture == null)
             originalTexture = ImageManager.GetRandomImage();
 
         if (originalTexture == null)
         {
-            Debug.LogError("Nie znaleziono tekstur! Upewnij się, że są w Resources/Images.");
+            Debug.LogError("No images found in resources folder");
             enabled = false;
             return;
         }
@@ -131,15 +131,12 @@ public class GameController : MonoBehaviour
             saturation = UnityEngine.Random.Range(0f, 2f)
         };
 
-        // prepare rightTexture
         Color[] dst = ImageProcessor.ApplyFilters(originalPixelsSmall, targetParams);
         rightTexture.SetPixels(dst);
         rightTexture.Apply();
         UpdateHistograms();
 
         resultText.text = "Dopasuj suwaki do prawego obrazka";
-        // (opcjonalnie) reset player's UI to defaults:
-        // ui.SetUIFromParams(new FilterParams()); 
     }
 
     private void UpdateScoreDisplay()
@@ -167,7 +164,7 @@ public class GameController : MonoBehaviour
 
     private void UpdateHistograms()
     {
-        // left
+        
         if (leftHistogramImage != null)
         {
             Color[] leftPix = leftTexture.GetPixels();
@@ -176,7 +173,6 @@ public class GameController : MonoBehaviour
             leftHistogramImage.texture = leftHistTex;
         }
 
-        // right
         if (rightHistogramImage != null)
         {
             Color[] rightPix = rightTexture.GetPixels();
@@ -217,15 +213,13 @@ public class GameController : MonoBehaviour
 
         originalTexture = newTex;
 
-        // zeskaluj do mniejszej wersji (jeśli masz kod scaleTexture)
         Texture2D small = TextureUtils.ScaleTexture(originalTexture, procWidth, procHeight);
         originalPixelsSmall = small.GetPixels();
 
-        // odśwież lewy/prawy obraz
         GenerateRandomTarget();
         ApplyPlayerParamsToLeft();
 
-        Debug.Log($"Zmieniono obrazek na: {originalTexture.name}");
+        Debug.Log($"Image changed to: {originalTexture.name}");
     }
 
 

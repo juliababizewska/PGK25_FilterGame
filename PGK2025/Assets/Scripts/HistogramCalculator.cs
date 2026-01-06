@@ -3,11 +3,6 @@ using System;
 
 public static class HistogramCalculator
 {
-    /// <summary>
-    /// Liczy histogram RGB z pikseli.
-    /// binsCount przykładowo 256.
-    /// Zwraca float[3][binsCount] - kanały R,G,B.
-    /// </summary>
     public static float[][] ComputeRGBHistogram(Color[] pixels, int binsCount = 256)
     {
         if (pixels == null || pixels.Length == 0) return new float[3][] { new float[binsCount], new float[binsCount], new float[binsCount] };
@@ -27,7 +22,6 @@ public static class HistogramCalculator
             b[bi]++;
         }
 
-        // normalize to [0,1] floats
         float[] rf = new float[binsCount];
         float[] gf = new float[binsCount];
         float[] bf = new float[binsCount];
