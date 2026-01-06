@@ -232,4 +232,9 @@ public class GameController : MonoBehaviour
         UpdateFilterValue();
         ui.SetUIFromParams(ui.currentParams);
     }
+
+    public void QuitGame()
+    { 
+        Application.Quit();
+    }
 }

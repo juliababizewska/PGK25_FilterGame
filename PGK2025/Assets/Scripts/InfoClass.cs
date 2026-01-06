@@ -13,9 +13,7 @@ public class InfoClass
         {
             case "Jasnoœæ:":
                 this.name = "Jasnoœæ";
-                this.description = "Przekszta³cenie punktowe, polegaj¹ce na liniowej zmianie jasnoœci ka¿dego piksela obrazu. Wartoœci dodatnie powoduj¹ rozjaœnienie obrazu, natomiast ujemne — jego przyciemnienie. Podczas stosowania tego przekszta³cenia nale¿y pamiêtaæ o normalizacji wartoœci, aby unikn¹æ przekroczenia dopuszczalnego zakresu jasnoœci";
-
-
+                this.description = "Przekszta³cenie punktowe, polegaj¹ce na liniowej zmianie jasnoœci ka¿dego piksela obrazu. Wartoœci dodatnie powoduj¹ rozjaœnienie obrazu, natomiast ujemne — jego przyciemnienie. Podczas stosowania tego przekszta³cenia nale¿y pamiêtaæ o normalizacji wartoœci, aby unikn¹æ przekroczenia dopuszczalnego zakresu jasnoœci.";
                 break;
             case "Kontrast:":
                 this.name = "Kontrast";

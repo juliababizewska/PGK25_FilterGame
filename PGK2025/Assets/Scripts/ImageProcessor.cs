@@ -3,7 +3,6 @@ using System;
 
 public static class ImageProcessor
 {
-    // Stosuje filtry punktowe do tablicy pikseli i zwraca nową tablicę
     public static Color[] ApplyFilters(Color[] srcPixels, FilterParams p)
     {
         if (srcPixels == null) return null;

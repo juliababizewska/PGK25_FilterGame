@@ -9,7 +9,6 @@ public class FilterParams
     public float gamma = 1f;        // [0.5, 2.5]
     public float saturation = 1f;   // [0, 2]
 
-    // helper: copy
     public FilterParams Clone()
     {
         return new FilterParams {
