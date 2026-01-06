@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using JetBrains.Annotations;
 
 [RequireComponent(typeof(UIBindings))]
 public class GameController : MonoBehaviour
@@ -37,6 +38,11 @@ public class GameController : MonoBehaviour
     private int procHeight;
     private FilterParams targetParams;
     private UIBindings ui;
+
+
+    public GameObject filterInfoPrefab;
+    public Transform canvas;
+    private GameObject currentFilterInfo = null;
 
     void Awake()
     {
@@ -75,6 +81,7 @@ public class GameController : MonoBehaviour
 
         leftRawImage.texture = leftTexture;
         rightRawImage.texture = rightTexture;
+
 
         // subscribe to UI events
         ui.OnParamsChanged += OnPlayerParamsChanged;
@@ -153,9 +160,9 @@ public class GameController : MonoBehaviour
     {
         float score = ScoreCalculator.ComputeMatchScore(leftTexture.GetPixels(), rightTexture.GetPixels());
         if (score >= 0.95f)
-            resultText.text = $"Wygrana! Score = {score:F3}";
+            resultText.text = $"Wygrana! Wynik = {score:F3}";
         else
-            resultText.text = $"Score = {score:F3} — próbuj dalej";
+            resultText.text = $"Wynik = {score:F3} — próbuj dalej";
     }
 
     private void UpdateHistograms()
@@ -176,6 +183,26 @@ public class GameController : MonoBehaviour
             var rightHist = HistogramCalculator.ComputeRGBHistogram(rightPix, histogramBins);
             Texture2D rightHistTex = HistogramRenderer.RenderRGBHistogram(rightHist, histogramWidth, histogramHeight);
             rightHistogramImage.texture = rightHistTex;
+        }
+    }
+
+    public void DisplayFilterInfo(string filterName, Vector2 buttonPos)
+    {
+        if (currentFilterInfo != null)
+        {
+            Destroy(currentFilterInfo);
+        }
+
+        currentFilterInfo = Instantiate(filterInfoPrefab, buttonPos, Quaternion.identity, canvas);
+        currentFilterInfo.GetComponent<FilterInfo>().SetUp(filterName);
+    }
+
+    public void DestroyItemInfo()
+    {
+        if (currentFilterInfo != null)
+        {
+            Destroy(currentFilterInfo.gameObject);
+            currentFilterInfo = null;
         }
     }
 
@@ -201,4 +228,14 @@ public class GameController : MonoBehaviour
         Debug.Log($"Zmieniono obrazek na: {originalTexture.name}");
     }
 
+
+    public void ResetFilters()
+    {
+        ui.currentParams.brightness = 0f;
+        ui.currentParams.contrast = 1f;
+        ui.currentParams.gamma = 1f;
+        ui.currentParams.saturation = 1f;
+        UpdateFilterValue();
+        ui.SetUIFromParams(ui.currentParams);
+    }
 }
