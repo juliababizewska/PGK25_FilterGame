@@ -9,13 +9,17 @@ public class InfoButton : MonoBehaviour
 {
     public TMP_Text filterName;
 
+
+
     public void OnCursorEnter()
     {
-       Debug.Log("Cursor entered on " + filterName.text);
-       Vector3 positon = transform.position;
-       positon += new Vector3(-230, 0, 0);
-       GameObject.Find("GameController").GetComponent<GameController>().DisplayFilterInfo(filterName.text, positon);
+        RectTransform buttonRect = GetComponent<RectTransform>();
+
+        GameObject.Find("GameController")
+            .GetComponent<GameController>()
+            .DisplayFilterInfo(filterName.text, buttonRect);
     }
+
 
     public void OnCursorExit()
     {

@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 using TMPro;
-using JetBrains.Annotations;
+using System.Windows.Forms;
 
 [RequireComponent(typeof(UIBindings))]
 public class GameController : MonoBehaviour
@@ -182,16 +183,30 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void DisplayFilterInfo(string filterName, Vector2 buttonPos)
+    public void DisplayFilterInfo(string filterName, RectTransform buttonRect)
     {
         if (currentFilterInfo != null)
         {
             Destroy(currentFilterInfo);
         }
 
-        currentFilterInfo = Instantiate(filterInfoPrefab, buttonPos, Quaternion.identity, canvas);
+        currentFilterInfo = Instantiate(filterInfoPrefab, canvas);
+
+        RectTransform popupRect = currentFilterInfo.GetComponent<RectTransform>();
+
+        Vector2 referenceResolution = new Vector2(1920, 1080);
+        Vector2 offsetPercent = new Vector2(-0.17f, 0f);
+
+        Vector3 buttonLocalPos = canvas.InverseTransformPoint(buttonRect.position);
+
+        Vector3 offset = new Vector3(referenceResolution.x * offsetPercent.x,
+                                     0, 0);
+
+        popupRect.localPosition = buttonLocalPos + offset;
+
         currentFilterInfo.GetComponent<FilterInfo>().SetUp(filterName);
     }
+
 
     public void DestroyItemInfo()
     {
@@ -201,17 +216,15 @@ public class GameController : MonoBehaviour
             currentFilterInfo = null;
         }
     }
-
-    public void ChangeImage()
+    public void SetImage(Texture2D tex)
     {
-        Texture2D newTex = ImageManager.GetRandomImage();
-        if (newTex == null)
+        if (tex == null)
         {
-            Debug.LogWarning("Brak dostępnych obrazków w Resources/Images/");
+            Debug.LogWarning("Texture is null");
             return;
         }
 
-        originalTexture = newTex;
+        originalTexture = tex;
 
         Texture2D small = TextureUtils.ScaleTexture(originalTexture, procWidth, procHeight);
         originalPixelsSmall = small.GetPixels();
@@ -219,9 +232,41 @@ public class GameController : MonoBehaviour
         GenerateRandomTarget();
         ApplyPlayerParamsToLeft();
 
-        Debug.Log($"Image changed to: {originalTexture.name}");
+        Debug.Log($"Image set: {originalTexture.name}");
     }
 
+
+    public void ChangeImage()
+    {
+        Texture2D newTex = ImageManager.GetRandomImage();
+
+        if (newTex == null)
+        {
+            Debug.LogWarning("Brak dostępnych obrazków w Resources/Images/");
+            return;
+        }
+
+        SetImage(newTex);
+    }
+
+
+    public void LoadImageFromDisk()
+    {
+        OpenFileDialog dialog = new OpenFileDialog();
+        dialog.Filter = "Image Files (*.png;*.jpg;*.bmp)|*.png;*.jpg;*.bmp";
+        dialog.Multiselect = false;
+
+        if (dialog.ShowDialog() != DialogResult.OK)
+            return;
+
+        byte[] bytes = File.ReadAllBytes(dialog.FileName);
+
+        Texture2D tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+        tex.LoadImage(bytes);
+        tex.name = Path.GetFileNameWithoutExtension(dialog.FileName);
+
+        SetImage(tex);
+    }
 
     public void ResetFilters()
     {
@@ -234,7 +279,7 @@ public class GameController : MonoBehaviour
     }
 
     public void QuitGame()
-    { 
-        Application.Quit();
+    {
+        System.Diagnostics.Process.GetCurrentProcess().Kill();
     }
 }
